@@ -14,17 +14,18 @@
             android:layout_height="0dp"
             tools:context=".MainActivity">
 
-            <ImageView
-                android:id="@+id/userphoto_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+            <Button
+                android:id="@+id/select_photo_button"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/rounded_image_holder"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="83dp"
-                tools:layout_editor_absoluteY="118dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_marginTop="24dp"/>
 
             <EditText
                 android:id="@+id/username_edit"
@@ -39,7 +40,7 @@
                 android:paddingEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userphoto_image" />
+                app:layout_constraintTop_toBottomOf="@id/select_photo_button" />
 
             <EditText
                 android:id="@+id/email_edit"
