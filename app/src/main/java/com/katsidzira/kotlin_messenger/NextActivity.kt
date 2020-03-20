@@ -11,8 +11,6 @@ class NextActivity : AppCompatActivity() {
 
         val loginFragment = LoginFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.frag_container, loginFragment)
-            .addToBackStack("login")
-            .commit()
+        transaction.add(R.id.frag_container, loginFragment).commit()
     }
 }
