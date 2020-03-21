@@ -1,6 +1,8 @@
 package com.katsidzira.kotlin_messenger
 
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +21,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
     private val TAG = "login frag"
-    private lateinit var callback: LoggedInListener
+    private var loggedInListener: onLoggedInListener? = null
 
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -36,16 +38,21 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        register_text.setOnClickListener {
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         logInUser()
     }
 
 
-    interface LoggedInListener {
+    interface onLoggedInListener {
         fun onUserLoggedIn()
     }
 
-    fun setOnLoggedInListener(callback: LoggedInListener) {
-        this.callback = callback
+    fun setOnLoggedInListener(callback: onLoggedInListener) {
+        this.loggedInListener = callback
     }
 
     fun logInUser() {
@@ -59,13 +66,27 @@ class LoginFragment : Fragment() {
                     if (it.isSuccessful) {
                         val user: FirebaseUser? = auth.currentUser
                         Log.d(TAG, "successfully sign in user: $user")
-                        callback.onUserLoggedIn()
+                        loggedInListener!!.onUserLoggedIn()
                     } else {
                         Log.w(TAG, "failed: ", it.exception)
                         Toast.makeText(context, "Authentication failed", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is onLoggedInListener) {
+            loggedInListener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement ")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        loggedInListener = null
     }
 
     companion object {

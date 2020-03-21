@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 
-class NextActivity : AppCompatActivity(), LoginFragment.LoggedInListener {
+class NextActivity : AppCompatActivity(), LoginFragment.onLoggedInListener {
     private val TAG: String = "next activity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,17 +26,16 @@ class NextActivity : AppCompatActivity(), LoginFragment.LoggedInListener {
         transaction.commit()
     }
 
-    override fun onAttachFragment(fragment: Fragment?) {
-        super.onAttachFragment(fragment)
-        if (fragment is LoginFragment) {
-            fragment.setOnLoggedInListener(this)
-        }
-    }
-
     override fun onUserLoggedIn() {
         //create and go to priofile frag
-        Log.d(TAG, "going to prfile")
+        Log.d(TAG, "going to profile")
     }
 
+//    override fun onAttachFragment(fragment: Fragment?) {
+//        super.onAttachFragment(fragment)
+//        if (fragment is LoginFragment) {
+//            fragment.setOnLoggedInListener(this)
+//        }
+//    }
 
 }

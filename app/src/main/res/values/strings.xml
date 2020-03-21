@@ -3,7 +3,7 @@
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="already_have_an_account_log_in_here">Already have an account?</string>
+    <string name="need_a_new_account">Need a new account?</string>
     <string name="register">Register</string>
 
     <!-- TODO: Remove or change this placeholder text -->

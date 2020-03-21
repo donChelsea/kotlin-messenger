@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LoginFragment.onLoggedInListener  {
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
@@ -37,11 +38,6 @@ class MainActivity : AppCompatActivity() {
         register_button.setOnClickListener {
             registerUser()
             // move to profile fragment
-        }
-
-        login_text.setOnClickListener {
-            val intent = Intent(this, NextActivity::class.java)
-            startActivity(intent)
         }
 
        select_photo_button.setOnClickListener {
@@ -112,6 +108,19 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "finally saved user to db")
         }
     }
+
+    override fun onAttachFragment(fragment: Fragment?) {
+        super.onAttachFragment(fragment)
+        if (fragment is LoginFragment) {
+            fragment.setOnLoggedInListener(this)
+        }
+    }
+
+    override fun onUserLoggedIn() {
+        //create and go to priofile frag
+        Log.d(TAG, "going to profile")
+    }
+
 }
 
 class User(val uid: String, val username: String, val profileImageUrl: String)
