@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         val uid = auth.uid ?: ""
         val ref = database.getReference("/users/$uid")
 
-        val user = User(uid, username_edit.text.toString(), profileImageUrl)
+        val user = User(uid, email_edit.text.toString(), profileImageUrl)
 
         ref.setValue(user).addOnSuccessListener {
             Log.d(TAG, "finally saved user to db")
