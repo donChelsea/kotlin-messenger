@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 
-class NextActivity : AppCompatActivity(), LoginFragment.onLoggedInListener {
+class NextActivity : AppCompatActivity(), LoginFragment.onLoggedInListener, LatestMessagesFragment.onLatestMessagesListener {
     private val TAG: String = "next activity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +27,20 @@ class NextActivity : AppCompatActivity(), LoginFragment.onLoggedInListener {
     }
 
     override fun onUserLoggedIn() {
-        //create and go to priofile frag
         Log.d(TAG, "going to profile")
+        val lastestMessagesFragment = LatestMessagesFragment.newInstance()
+        val transaction = supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frag_container, lastestMessagesFragment)
+        transaction.commit()
+    }
+
+    override fun createNewMessage() {
+        TODO("Not yet implemented")
+    }
+
+    override fun viewChatLog() {
+        TODO("Not yet implemented")
     }
 
 //    override fun onAttachFragment(fragment: Fragment?) {

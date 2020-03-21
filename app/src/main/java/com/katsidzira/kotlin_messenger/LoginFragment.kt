@@ -80,7 +80,7 @@ class LoginFragment : Fragment() {
         if (context is onLoggedInListener) {
             loggedInListener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement ")
+            throw RuntimeException("$context must implement onLoggedInListener")
         }
     }
 

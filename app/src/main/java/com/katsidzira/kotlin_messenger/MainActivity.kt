@@ -117,8 +117,12 @@ class MainActivity : AppCompatActivity(), LoginFragment.onLoggedInListener  {
     }
 
     override fun onUserLoggedIn() {
-        //create and go to priofile frag
         Log.d(TAG, "going to profile")
+        val lastestMessagesFragment = LatestMessagesFragment.newInstance()
+        val transaction = supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frag_container, lastestMessagesFragment)
+        transaction.commit()
     }
 
 }

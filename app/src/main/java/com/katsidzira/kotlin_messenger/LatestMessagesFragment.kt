@@ -8,34 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [LatestMessagesFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- */
 class LatestMessagesFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: onLatestMessagesListener? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_latest_messages, container, false)
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is onLatestMessagesListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement onLatestMessagesListener")
         }
     }
 
@@ -44,20 +31,15 @@ class LatestMessagesFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+    interface onLatestMessagesListener {
+        fun createNewMessage()
+
+        fun viewChatLog()
     }
+
+    companion object {
+        @JvmStatic fun newInstance() = LatestMessagesFragment()
+    }
+
 
 }
