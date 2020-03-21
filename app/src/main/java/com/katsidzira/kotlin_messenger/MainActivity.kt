@@ -2,8 +2,6 @@ package com.katsidzira.kotlin_messenger
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -36,18 +34,18 @@ class MainActivity : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
         database = FirebaseDatabase.getInstance()
 
-        binding.registerButton.setOnClickListener {
+        register_button.setOnClickListener {
             registerUser()
             // move to the next activity's main fragment
         }
 
-        binding.loginText.setOnClickListener {
+        login_text.setOnClickListener {
             val intent = Intent(this, NextActivity::class.java)
             startActivity(intent)
             // move to next activity's login fragment
         }
 
-        binding.selectPhotoButton.setOnClickListener {
+       select_photo_button.setOnClickListener {
             Log.d(TAG, "try to show photo selector")
 
             val intent = Intent(Intent.ACTION_PICK)
@@ -63,15 +61,16 @@ class MainActivity : AppCompatActivity() {
         }
         selectedPhotoUri = data!!.data
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-        val d: Drawable = BitmapDrawable(resources, bitmap)
 
-        binding.selectPhotoButton.setBackgroundDrawable(d)
+        select_photo_image.setImageBitmap(bitmap)
+
+        select_photo_button.alpha = 0f
     }
 
     private fun registerUser() {
-        val name = binding.usernameEdit.text.toString()
-        val email = binding.emailEdit.text.toString()
-        val password = binding.passwordEdit.text.toString()
+        val name = username_edit.text.toString()
+        val email = email_edit.text.toString()
+        val password = password_edit.text.toString()
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Missing or incorrect fields", Toast.LENGTH_SHORT).show()
