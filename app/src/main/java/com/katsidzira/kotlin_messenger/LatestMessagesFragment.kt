@@ -3,10 +3,9 @@ package com.katsidzira.kotlin_messenger
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_latest_messages.*
 
 class LatestMessagesFragment : Fragment() {
     private var listener: onLatestMessagesListener? = null
@@ -15,6 +14,14 @@ class LatestMessagesFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_latest_messages, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        test_button.setOnClickListener {
+            listener!!.startNewMessage()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -32,9 +39,7 @@ class LatestMessagesFragment : Fragment() {
     }
 
     interface onLatestMessagesListener {
-        fun createNewMessage()
-
-        fun viewChatLog()
+        fun startNewMessage()
     }
 
     companion object {

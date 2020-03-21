@@ -1,4 +1,4 @@
-package com.katsidzira.kotlin_messenger
+package com.katsidzira.kotlin_messenger.register
 
 
 import android.content.Context
@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.databinding.FragmentLoginBinding
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -30,7 +31,8 @@ class LoginFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_login, container, false)
         return binding.root
     }
 
@@ -39,8 +41,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         register_text.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+            loggedInListener!!.registerNewUser()
         }
 
         logInUser()
@@ -49,6 +50,8 @@ class LoginFragment : Fragment() {
 
     interface onLoggedInListener {
         fun onUserLoggedIn()
+
+        fun registerNewUser()
     }
 
     fun setOnLoggedInListener(callback: onLoggedInListener) {
@@ -60,6 +63,9 @@ class LoginFragment : Fragment() {
         val password = frag_password_edit.text
 
         login_button.setOnClickListener {
+            if (email.isEmpty() or password.isEmpty()) {
+                Toast.makeText(context, "Missing or incorrect fields", Toast.LENGTH_SHORT).show()
+            }
             Log.d(TAG, "email: $email, password: $password")
             auth.signInWithEmailAndPassword(email.toString(), password.toString())
                 .addOnCompleteListener {
@@ -90,6 +96,7 @@ class LoginFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic fun newInstance() = LoginFragment()
+        @JvmStatic fun newInstance() =
+            LoginFragment()
     }
 }
