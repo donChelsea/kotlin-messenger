@@ -36,13 +36,12 @@ class MainActivity : AppCompatActivity() {
 
         register_button.setOnClickListener {
             registerUser()
-            // move to the next activity's main fragment
+            // move to profile fragment
         }
 
         login_text.setOnClickListener {
             val intent = Intent(this, NextActivity::class.java)
             startActivity(intent)
-            // move to next activity's login fragment
         }
 
        select_photo_button.setOnClickListener {
@@ -81,7 +80,6 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 Log.d(TAG, "success: ${it.result?.user?.uid}")
-
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
