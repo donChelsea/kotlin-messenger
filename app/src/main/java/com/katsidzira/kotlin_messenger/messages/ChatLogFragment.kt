@@ -35,9 +35,7 @@ class ChatLogFragment : Fragment() {
         adapter.add(ChatItem())
         adapter.add(ChatItem())
 
-
         recyclerview_chat.adapter = adapter
-
     }
 
 
@@ -53,12 +51,6 @@ class ChatLogFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-
-    @Override fun onBackPressed() {
-        val fm: FragmentManager = activity!!.supportFragmentManager
-        fm.popBackStack()
     }
 
 
