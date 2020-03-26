@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.katsidzira.kotlin_messenger.R
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.fragment_chat_log.*
 
 
 class ChatLogFragment : Fragment() {
@@ -24,7 +28,16 @@ class ChatLogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onBackPressed()
+        val adapter = GroupAdapter<GroupieViewHolder>()
+
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+        adapter.add(ChatItem())
+
+
+        recyclerview_chat.adapter = adapter
+
     }
 
 
@@ -55,6 +68,17 @@ class ChatLogFragment : Fragment() {
 
     companion object {
         @JvmStatic fun newInstance() = ChatLogFragment()
+    }
+
+}
+
+class ChatItem: Item<GroupieViewHolder>() {
+    override fun getLayout(): Int {
+        return R.layout.chat_from_row
+    }
+
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
     }
 
 }

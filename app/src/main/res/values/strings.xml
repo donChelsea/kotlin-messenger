@@ -13,4 +13,7 @@
     <string name="sign_out">Sign out</string>
     <string name="new_message">New Message</string>
     <string name="this_will_say_user_s_name">This will say user\'s name</string>
+    <string name="send">Send</string>
+    <string name="enter_message">Enter message</string>
+    <string name="chat_text_here">Chat text here</string>
 </resources>
