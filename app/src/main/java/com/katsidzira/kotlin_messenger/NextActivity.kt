@@ -9,13 +9,17 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.katsidzira.kotlin_messenger.register.LoginFragment
-import com.katsidzira.kotlin_messenger.register.MainActivity
+import com.katsidzira.kotlin_messenger.messages.ChatLogFragment
+import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
+import com.katsidzira.kotlin_messenger.messages.NewMessageFragment
+import com.katsidzira.kotlin_messenger.registerlogin.LoginFragment
+import com.katsidzira.kotlin_messenger.registerlogin.MainActivity
 
 class NextActivity : AppCompatActivity(),
     LoginFragment.onLoggedInListener,
     LatestMessagesFragment.onLatestMessagesListener,
-    NewMessageFragment.OnNewMessageListener {
+    NewMessageFragment.OnNewMessageListener,
+    ChatLogFragment.OnChatLogListener{
 
     private val TAG: String = "next activity"
 
@@ -34,6 +38,7 @@ class NextActivity : AppCompatActivity(),
     private fun replaceFragment(fragment: Fragment?) {
         val transaction = supportFragmentManager
             .beginTransaction()
+            .addToBackStack("next")
             .replace(R.id.frag_container, fragment!!)
 
         // add other fragments with call to replace
@@ -56,14 +61,17 @@ class NextActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    override fun startNewMessage() {
+    override fun chooseUserToMessage() {
         // go to new message screen
         val newMessageFragment = NewMessageFragment.newInstance()
         replaceFragment(newMessageFragment)
     }
 
-    override fun sendMessage() {
-        // begin new message
+    override fun startMessageConvo() {
+        // go to chat log to begin new message
+        val chatLogFragment = ChatLogFragment.newInstance()
+        replaceFragment(chatLogFragment)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -90,6 +98,10 @@ class NextActivity : AppCompatActivity(),
         if (fragment is LoginFragment) {
             fragment.setOnLoggedInListener(this)
         }
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+        // from chat log fragment
     }
 
 }

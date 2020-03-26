@@ -1,4 +1,4 @@
-package com.katsidzira.kotlin_messenger.register
+package com.katsidzira.kotlin_messenger.registerlogin
 
 import android.app.Activity
 import android.content.Intent
@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.katsidzira.kotlin_messenger.LatestMessagesFragment
+import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
 import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.user_list_view.*
 import java.util.*
 
 
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(),
         selectedPhotoUri = data!!.data
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
 
-        select_photo_image.setImageBitmap(bitmap)
+        newmessage_image.setImageBitmap(bitmap)
 
         select_photo_button.alpha = 0f
     }
@@ -138,4 +139,6 @@ class MainActivity : AppCompatActivity(),
 
 }
 
-class User(val uid: String, val username: String, val profileImageUrl: String)
+class User(val uid: String, val username: String, val profileImageUrl: String) {
+    constructor() : this("", "", "")
+}

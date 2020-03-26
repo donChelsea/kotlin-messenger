@@ -1,10 +1,10 @@
-package com.katsidzira.kotlin_messenger
+package com.katsidzira.kotlin_messenger.messages
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.katsidzira.kotlin_messenger.R
 import kotlinx.android.synthetic.main.fragment_latest_messages.*
 
 class LatestMessagesFragment : Fragment() {
@@ -20,7 +20,7 @@ class LatestMessagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         test_button.setOnClickListener {
-            listener!!.startNewMessage()
+            listener!!.chooseUserToMessage()
         }
     }
 
@@ -39,11 +39,12 @@ class LatestMessagesFragment : Fragment() {
     }
 
     interface onLatestMessagesListener {
-        fun startNewMessage()
+        fun chooseUserToMessage()
     }
 
     companion object {
-        @JvmStatic fun newInstance() = LatestMessagesFragment()
+        @JvmStatic fun newInstance() =
+            LatestMessagesFragment()
     }
 
 

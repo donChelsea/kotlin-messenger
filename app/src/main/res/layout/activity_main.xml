@@ -12,7 +12,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:context=".register.MainActivity">
+            tools:context=".registerlogin.MainActivity">
 
             <Button
                 android:id="@+id/select_photo_button"
@@ -28,7 +28,7 @@
                 android:layout_marginTop="24dp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/select_photo_image"
+                android:id="@+id/main_select_photo_imageview"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 app:civ_border_width="2dp"

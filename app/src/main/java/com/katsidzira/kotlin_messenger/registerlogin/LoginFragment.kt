@@ -1,8 +1,7 @@
-package com.katsidzira.kotlin_messenger.register
+package com.katsidzira.kotlin_messenger.registerlogin
 
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater

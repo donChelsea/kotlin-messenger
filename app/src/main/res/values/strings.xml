@@ -12,4 +12,5 @@
     <string name="select_photo">Select photo</string>
     <string name="sign_out">Sign out</string>
     <string name="new_message">New Message</string>
+    <string name="this_will_say_user_s_name">This will say user\'s name</string>
 </resources>
