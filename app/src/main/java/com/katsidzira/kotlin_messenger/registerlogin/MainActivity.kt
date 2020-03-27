@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
 import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.databinding.ActivityMainBinding
+import com.katsidzira.kotlin_messenger.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.user_list_view.*
 import java.util.*
@@ -139,6 +140,3 @@ class MainActivity : AppCompatActivity(),
 
 }
 
-class User(val uid: String, val username: String, val profileImageUrl: String) {
-    constructor() : this("", "", "")
-}

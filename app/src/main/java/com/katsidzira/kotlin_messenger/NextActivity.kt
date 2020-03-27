@@ -12,8 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.katsidzira.kotlin_messenger.messages.ChatLogFragment
 import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
 import com.katsidzira.kotlin_messenger.messages.NewMessageFragment
+import com.katsidzira.kotlin_messenger.messages.UserItem
 import com.katsidzira.kotlin_messenger.registerlogin.LoginFragment
 import com.katsidzira.kotlin_messenger.registerlogin.MainActivity
+import kotlinx.android.synthetic.main.activity_next.*
 
 class NextActivity : AppCompatActivity(),
     LoginFragment.onLoggedInListener,
@@ -40,8 +42,6 @@ class NextActivity : AppCompatActivity(),
             .beginTransaction()
             .addToBackStack("next")
             .replace(R.id.frag_container, fragment!!)
-
-        // add other fragments with call to replace
         transaction.commit()
     }
 
@@ -67,10 +67,21 @@ class NextActivity : AppCompatActivity(),
         replaceFragment(newMessageFragment)
     }
 
-    override fun startMessageConvo() {
+    override fun startMessageConvo(userItem: UserItem) {
+        val USER_KEY = "user key"
         // go to chat log to begin new message
         val chatLogFragment = ChatLogFragment.newInstance()
-        replaceFragment(chatLogFragment)
+        chatLogFragment.apply {
+            arguments = Bundle().apply {
+                putParcelable(USER_KEY, userItem.user)
+            }
+        }
+        val transaction = supportFragmentManager
+            .beginTransaction()
+            .addToBackStack("next")
+            .replace(R.id.frag_container, chatLogFragment)
+
+        transaction.commit()
 
     }
 
