@@ -1,4 +1,4 @@
-package com.katsidzira.kotlin_messenger
+package com.katsidzira.kotlin_messenger.registerlogin
 
 import android.app.Activity
 import android.content.Intent
@@ -9,15 +9,21 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
+import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.databinding.ActivityMainBinding
+import com.katsidzira.kotlin_messenger.model.User
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.user_list_view.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    LoginFragment.onLoggedInListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
@@ -28,20 +34,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_main
+        )
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
         database = FirebaseDatabase.getInstance()
 
         register_button.setOnClickListener {
-            registerUser()
+            registerNewUser()
             // move to profile fragment
-        }
-
-        login_text.setOnClickListener {
-            val intent = Intent(this, NextActivity::class.java)
-            startActivity(intent)
         }
 
        select_photo_button.setOnClickListener {
@@ -61,12 +64,59 @@ class MainActivity : AppCompatActivity() {
         selectedPhotoUri = data!!.data
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
 
-        select_photo_image.setImageBitmap(bitmap)
+        newmessage_image.setImageBitmap(bitmap)
 
         select_photo_button.alpha = 0f
     }
 
-    private fun registerUser() {
+
+    private fun uploadImageToFirebaseStorage() {
+        if (selectedPhotoUri == null) return
+
+        val filename = UUID.randomUUID().toString()
+        val ref = storage.getReference("/images/$filename")
+        ref.putFile(selectedPhotoUri!!).addOnSuccessListener {
+            Log.d(TAG, "successfully uploaded image: ${it.metadata?.path}")
+            ref.downloadUrl.addOnSuccessListener {
+                Log.d(TAG, "file location: $it")
+                saveUserToFirebaseDatabse(it.toString())
+            }
+        }
+    }
+
+    private fun saveUserToFirebaseDatabse(profileImageUrl: String) {
+        val uid = auth.uid ?: ""
+        val ref = database.getReference("/users/$uid")
+
+        val user = User(
+            uid,
+            email_edit.text.toString(),
+            profileImageUrl
+        )
+
+        ref.setValue(user).addOnSuccessListener {
+            Log.d(TAG, "finally saved user to db")
+        }
+    }
+
+    override fun onAttachFragment(fragment: Fragment?) {
+        super.onAttachFragment(fragment)
+        if (fragment is LoginFragment) {
+            fragment.setOnLoggedInListener(this)
+        }
+    }
+
+    override fun onUserLoggedIn() {
+        Log.d(TAG, "going to profile")
+        val lastestMessagesFragment =
+            LatestMessagesFragment.newInstance()
+        val transaction = supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frag_container, lastestMessagesFragment)
+        transaction.commit()
+    }
+
+    override fun registerNewUser() {
         val name = username_edit.text.toString()
         val email = email_edit.text.toString()
         val password = password_edit.text.toString()
@@ -88,30 +138,5 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadImageToFirebaseStorage() {
-        if (selectedPhotoUri == null) return
-
-        val filename = UUID.randomUUID().toString()
-        val ref = storage.getReference("/images/$filename")
-        ref.putFile(selectedPhotoUri!!).addOnSuccessListener {
-            Log.d(TAG, "successfully uploaded image: ${it.metadata?.path}")
-            ref.downloadUrl.addOnSuccessListener {
-                Log.d(TAG, "file location: $it")
-                saveUserToFirebaseDatabse(it.toString())
-            }
-        }
-    }
-
-    private fun saveUserToFirebaseDatabse(profileImageUrl: String) {
-        val uid = auth.uid ?: ""
-        val ref = database.getReference("/users/$uid")
-
-        val user = User(uid, email_edit.text.toString(), profileImageUrl)
-
-        ref.setValue(user).addOnSuccessListener {
-            Log.d(TAG, "finally saved user to db")
-        }
-    }
 }
 
-class User(val uid: String, val username: String, val profileImageUrl: String)
