@@ -19,7 +19,7 @@
         app:layout_constraintStart_toEndOf="@id/chat_from_image"
         app:layout_constraintTop_toTopOf="@id/chat_from_image" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chat_from_image"
         android:layout_width="50dp"
         android:layout_height="50dp"

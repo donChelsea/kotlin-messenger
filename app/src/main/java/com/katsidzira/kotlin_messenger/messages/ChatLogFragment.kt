@@ -61,7 +61,8 @@ class ChatLogFragment : Fragment() {
                 if (chatMessage != null) {
                     Log.d(TAG, "chat message: ${chatMessage.text}")
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        adapter.add(ChatFromItem(chatMessage.text))
+                        val currentUser = LatestMessagesFragment.currentUser ?: return
+                        adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
                     }
