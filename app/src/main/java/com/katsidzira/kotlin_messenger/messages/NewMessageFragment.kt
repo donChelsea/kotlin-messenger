@@ -90,8 +90,7 @@ class NewMessageFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic fun newInstance() =
-            NewMessageFragment()
+        @JvmStatic fun newInstance() = NewMessageFragment()
     }
 
 }

@@ -13,13 +13,13 @@ import com.katsidzira.kotlin_messenger.messages.ChatLogFragment
 import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
 import com.katsidzira.kotlin_messenger.messages.NewMessageFragment
 import com.katsidzira.kotlin_messenger.messages.UserItem
+import com.katsidzira.kotlin_messenger.model.User
 import com.katsidzira.kotlin_messenger.registerlogin.LoginFragment
 import com.katsidzira.kotlin_messenger.registerlogin.MainActivity
-import kotlinx.android.synthetic.main.activity_next.*
 
 class NextActivity : AppCompatActivity(),
     LoginFragment.onLoggedInListener,
-    LatestMessagesFragment.onLatestMessagesListener,
+    LatestMessagesFragment.OnLatestMessagesListener,
     NewMessageFragment.OnNewMessageListener,
     ChatLogFragment.OnChatLogListener{
 
@@ -61,10 +61,15 @@ class NextActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    override fun chooseUserToMessage() {
+    override fun chooseUserToMessage(chatPartnerUser: User?) {
         // go to new message screen
-        val newMessageFragment = NewMessageFragment.newInstance()
-        replaceFragment(newMessageFragment)
+        val chatLogFragment = ChatLogFragment.newInstance()
+        chatLogFragment.apply {
+            arguments = Bundle().apply {
+                putParcelable("user key", chatPartnerUser)
+            }
+        }
+        replaceFragment(chatLogFragment)
     }
 
     override fun startMessageConvo(userItem: UserItem) {
@@ -93,7 +98,11 @@ class NextActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_new_message -> {
-                chooseUserToMessage()
+                val newMessagesFragment = NewMessageFragment.newInstance()
+                val transaction = supportFragmentManager.beginTransaction()
+                    .addToBackStack("new message")
+                    .replace(R.id.frag_container, newMessagesFragment)
+                transaction.commit()
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()

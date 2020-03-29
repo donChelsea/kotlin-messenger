@@ -5,22 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.model.ChatMessage
 import com.katsidzira.kotlin_messenger.model.LatestMessageRow
 import com.katsidzira.kotlin_messenger.model.User
-import com.katsidzira.kotlin_messenger.model.latestMessagesMap
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_latest_messages.*
 
 class LatestMessagesFragment : Fragment() {
-    private var listener: onLatestMessagesListener? = null
+    private var listener: OnLatestMessagesListener? = null
     val TAG = "latest messages"
     val adapter = GroupAdapter<GroupieViewHolder>()
+    val latestMessagesMap = HashMap<String, ChatMessage>()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -34,10 +34,17 @@ class LatestMessagesFragment : Fragment() {
         fetchCurrentUser()
 
         recyclerview_latestmessages.adapter = adapter
+        recyclerview_latestmessages.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        adapter.setOnItemClickListener {item, view ->
+            val row = item as LatestMessageRow
+            row.chatPartnerUser
+
+            listener?.chooseUserToMessage(row.chatPartnerUser)
+
+        }
 
         listenForLatestMessages()
-
-
     }
 
     private fun listenForLatestMessages() {
@@ -92,10 +99,10 @@ class LatestMessagesFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is onLatestMessagesListener) {
+        if (context is OnLatestMessagesListener) {
             listener = context
         } else {
-            throw RuntimeException("$context must implement onLatestMessagesListener")
+            throw RuntimeException("$context must implement OnLatestMessagesListener")
         }
     }
 
@@ -104,8 +111,8 @@ class LatestMessagesFragment : Fragment() {
         listener = null
     }
 
-    interface onLatestMessagesListener {
-        fun chooseUserToMessage()
+    interface OnLatestMessagesListener {
+        fun chooseUserToMessage(chatPartnerUser: User?)
     }
 
     companion object {

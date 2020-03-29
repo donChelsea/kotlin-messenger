@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/latestmessages_profile_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,10 +29,9 @@
 
     <TextView
         android:id="@+id/latestmessages_preview_text"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/preview_of_the_chat_message"
-        android:maxWidth="300dp"
         android:maxLines="2"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
