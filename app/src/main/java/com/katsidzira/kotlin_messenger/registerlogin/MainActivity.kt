@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(),
         selectedPhotoUri = data!!.data
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
 
-        newmessage_image.setImageBitmap(bitmap)
+        main_select_photo_imageview.setImageBitmap(bitmap)
 
         select_photo_button.alpha = 0f
     }
