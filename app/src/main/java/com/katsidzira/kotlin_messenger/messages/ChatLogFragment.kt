@@ -104,6 +104,12 @@ class ChatLogFragment : Fragment() {
         }
 
         toRef.setValue(chatMessage)
+
+        val latestMessagesFromRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+        latestMessagesFromRef.setValue(chatMessage)
+
+        val latestMessagesToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+        latestMessagesToRef.setValue(chatMessage)
     }
 
     override fun onAttach(context: Context) {

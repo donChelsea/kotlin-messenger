@@ -6,17 +6,21 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.katsidzira.kotlin_messenger.R
+import com.katsidzira.kotlin_messenger.model.ChatMessage
+import com.katsidzira.kotlin_messenger.model.LatestMessageRow
 import com.katsidzira.kotlin_messenger.model.User
+import com.katsidzira.kotlin_messenger.model.latestMessagesMap
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_latest_messages.*
 
 class LatestMessagesFragment : Fragment() {
     private var listener: onLatestMessagesListener? = null
     val TAG = "latest messages"
+    val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -29,8 +33,45 @@ class LatestMessagesFragment : Fragment() {
 
         fetchCurrentUser()
 
-        test_button.setOnClickListener {
-            listener!!.chooseUserToMessage()
+        recyclerview_latestmessages.adapter = adapter
+
+        listenForLatestMessages()
+
+
+    }
+
+    private fun listenForLatestMessages() {
+        val fromId =FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
+        ref.addChildEventListener(object: ChildEventListener {
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
+                latestMessagesMap[p0.key!!] = chatMessage
+                refreshRecyclerViewMessages()
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
+                latestMessagesMap[p0.key!!] = chatMessage
+                refreshRecyclerViewMessages()
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+        })
+    }
+
+    private fun refreshRecyclerViewMessages() {
+        adapter.clear()
+        latestMessagesMap.values.forEach {
+            adapter.add(LatestMessageRow(it))
         }
     }
 

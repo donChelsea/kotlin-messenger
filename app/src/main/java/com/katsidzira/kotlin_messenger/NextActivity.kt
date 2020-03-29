@@ -93,7 +93,7 @@ class NextActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_new_message -> {
-
+                chooseUserToMessage()
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
