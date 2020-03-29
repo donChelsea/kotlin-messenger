@@ -43,7 +43,7 @@ class LatestMessagesFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 currentUser = p0.getValue(User::class.java)
-                Log.d(TAG, "current user: ${currentUser!!.username}")
+                Log.d(TAG, "current user: ${currentUser?.username}")
             }
 
         })

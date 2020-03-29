@@ -3,7 +3,6 @@ package com.katsidzira.kotlin_messenger.messages
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,9 +20,6 @@ import com.katsidzira.kotlin_messenger.model.ChatToItem
 import com.katsidzira.kotlin_messenger.model.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.chat_from_row.view.*
-import kotlinx.android.synthetic.main.chat_to_row.view.*
 import kotlinx.android.synthetic.main.fragment_chat_log.*
 
 
@@ -53,7 +49,9 @@ class ChatLogFragment : Fragment() {
     }
 
     private fun listenForMessages() {
-        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+        val ref = FirebaseDatabase.getInstance().getReference("user-messages/$fromId/$toId")
         ref.addChildEventListener(object: ChildEventListener {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
@@ -89,15 +87,23 @@ class ChatLogFragment : Fragment() {
         val fromId = FirebaseAuth.getInstance().uid
         val toId = toUser?.uid
 
-        val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+//        val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+        val fromRef = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+
+        val toRef = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
 
         if (fromId == null) return
 
-        val chatMessage = ChatMessage(ref.key!!, text, fromId, toId!!, System.currentTimeMillis()/1000)
+        val chatMessage = ChatMessage(fromRef.key!!, text, fromId, toId!!, System.currentTimeMillis()/1000)
 
-        ref.setValue(chatMessage).addOnSuccessListener {
-            Log.d(TAG, "Saved our chat message: ${ref.key}")
+        fromRef.setValue(chatMessage).addOnSuccessListener {
+            entermessage_edit.text.clear()
+            recyclerview_chat.scrollToPosition(adapter.itemCount - 1)
+            Log.d(TAG, "Saved our chat message: ${fromRef.key}")
         }
+
+        toRef.setValue(chatMessage)
     }
 
     override fun onAttach(context: Context) {
