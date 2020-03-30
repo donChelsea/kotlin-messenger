@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".messages.ChatLogFragment"
-    android:background="@android:color/white">
+    android:background="@color/colorPrimaryBlue">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryBlue"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/entermessage_edit"
@@ -27,16 +27,17 @@
 
     <EditText
         android:id="@+id/entermessage_edit"
-        android:layout_width="265dp"
+        android:layout_width="290dp"
         android:layout_height="46dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
-        android:background="@android:color/white"
+        android:background="@drawable/rounded_input_dark"
         android:ems="10"
         android:hint="@string/enter_message"
         android:inputType="textPersonName"
         android:padding="8dp"
+        android:textColor="@color/colorNeutralGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,16 +45,16 @@
     <Button
         android:id="@+id/send_button"
         android:layout_width="86dp"
-        android:layout_height="46dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/round_button"
         android:text="@string/send"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorNeutralGrey"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/entermessage_edit" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

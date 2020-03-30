@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="@color/colorPrimaryBlue">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/newmessage_image"
@@ -23,6 +24,7 @@
         android:text="@string/this_will_say_user_s_name"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/colorNeutralGrey"
         app:layout_constraintStart_toEndOf="@id/newmessage_image"
         app:layout_constraintTop_toTopOf="@+id/newmessage_image" />
 
