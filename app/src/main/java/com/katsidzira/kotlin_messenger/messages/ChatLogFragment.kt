@@ -65,6 +65,7 @@ class ChatLogFragment : Fragment() {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
                     }
                 }
+                recyclerview_chat.scrollToPosition(adapter.itemCount - 1)
             }
 
             override fun onCancelled(p0: DatabaseError) {

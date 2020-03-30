@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.katsidzira.kotlin_messenger.R
 import com.katsidzira.kotlin_messenger.model.User
+import com.katsidzira.kotlin_messenger.model.UserItem
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -59,6 +61,7 @@ class NewMessageFragment : Fragment() {
                 }
 
                 recyclerview_new_message.adapter = adapter
+                recyclerview_new_message.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -95,14 +98,4 @@ class NewMessageFragment : Fragment() {
 
 }
 
-class UserItem(val user: User): Item<GroupieViewHolder>() {
-    override fun getLayout(): Int {
-        return R.layout.user_list_view
-    }
 
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.itemView.newmessage_username.text = user.username
-        Picasso.get().load(user.profileImageUrl).into(viewHolder.itemView.newmessage_image)
-    }
-
-}

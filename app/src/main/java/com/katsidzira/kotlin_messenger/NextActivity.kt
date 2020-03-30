@@ -12,8 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.katsidzira.kotlin_messenger.messages.ChatLogFragment
 import com.katsidzira.kotlin_messenger.messages.LatestMessagesFragment
 import com.katsidzira.kotlin_messenger.messages.NewMessageFragment
-import com.katsidzira.kotlin_messenger.messages.UserItem
 import com.katsidzira.kotlin_messenger.model.User
+import com.katsidzira.kotlin_messenger.model.UserItem
 import com.katsidzira.kotlin_messenger.registerlogin.LoginFragment
 import com.katsidzira.kotlin_messenger.registerlogin.MainActivity
 

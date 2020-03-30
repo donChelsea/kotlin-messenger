@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="100dp"
+    android:background="@color/colorPrimaryBlue">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/latestmessages_profile_image"
@@ -24,6 +25,7 @@
         android:layout_marginStart="16dp"
         android:textStyle="bold"
         android:textSize="16sp"
+        android:textColor="@color/colorNeutralGrey"
         app:layout_constraintStart_toEndOf="@+id/latestmessages_profile_image"
         app:layout_constraintTop_toTopOf="@+id/latestmessages_profile_image" />
 
@@ -36,6 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
+        android:textColor="@color/colorNeutralGrey"
         app:layout_constraintStart_toEndOf="@+id/latestmessages_profile_image"
         app:layout_constraintTop_toBottomOf="@+id/latestmessages_username_text" />
 
